@@ -12,12 +12,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 
 (def nrows 4)
-(def ncols 6)
+(def ncols 5)
 
 (def column-curvature (deg2rad 17))                         ; 15                        ; curvature of the columns
 (def row-curvature (deg2rad 6))                             ; 5                   ; curvature of the rows
 (def centerrow 1.75)                              ; controls front-back tilt
-(def centercol 3)                                           ; controls left-right tilt / tenting (higher number is more tenting)
+(def centercol 2)                                           ; controls left-right tilt / tenting (higher number is more tenting)
 (def tenting-angle (deg2rad 15))                            ; or, change this for more precise tenting control
 (def column-style
   (if (> nrows 5) :orthographic :standard))
@@ -29,7 +29,7 @@
 
 (def thumb-offsets [10 -5 1])
 
-(def keyboard-z-offset 7)                                   ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
+(def keyboard-z-offset 16)                                   ; controls overall height; original=9 with centercol=3; use 16 for centercol=2
 (def bottom-height 2)                                    ; plexiglass plate or printed plate
 (def extra-width 3)                                       ; extra space between the base of keys; original= 2
 (def extra-height -0.5)                                      ; original= 0.5
@@ -41,7 +41,7 @@
 
 ; If you use Cherry MX or Gateron switches, this can be turned on.
 ; If you use other switches such as Kailh, you should set this as false
-(def create-side-nubs? false)
+(def create-side-nubs? true)
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; General variables ;;
@@ -90,19 +90,62 @@
                                              0
                                              (/ side-nub-thickness 2)])))
                       (translate [0 0 (- plate-thickness side-nub-thickness)]))
-        plate-half (union top-wall left-wall (if create-side-nubs? (with-fn 100 side-nub)))
-        top-nub (->> (cube 5 5 retention-tab-hole-thickness)
-                     (translate [(+ (/ keyswitch-width 2)) 0 (/ retention-tab-hole-thickness 2)]))
-        top-nub-quad (union top-nub
-                            (rotate (deg2rad 90) [0 0 1] top-nub)
-                            (rotate (deg2rad 180) [0 0 1] top-nub)
-                            (rotate (deg2rad 270) [0 0 1] top-nub))]
-    (difference
-      (union plate-half
-             (->> plate-half
-                  (mirror [1 0 0])
-                  (mirror [0 1 0])))
-      top-nub-quad)))
+        plate-half (union top-wall
+                          left-wall
+                          (if create-side-nubs? (with-fn 100 side-nub) ()))
+        swap-holder (->> (cube (+ keyswitch-width 3) (/ (+ keyswitch-height 3) 2) 3)
+                         (translate [0 (/ (+ keyswitch-height 3) 4) -1.5]))
+        main-axis-hole (->> (cylinder (/ 4.0 2) 10)
+                            (with-fn 12))
+        plus-hole (->> (cylinder (/ 2.9 2) 10)
+                       (with-fn 8)
+                       (translate [-3.81 2.54 0]))
+        minus-hole (->> (cylinder (/ 2.9 2) 10)
+                        (with-fn 8)
+                        (translate [2.54 5.08 0]))
+        friction-hole (->> (cylinder (/ 1.7 2) 10)
+                           (with-fn 8))
+        friction-hole-right (translate [5 0 0] friction-hole)
+        friction-hole-left (translate [-5 0 0] friction-hole)
+        hotswap-base-shape (->> (cube 14 5.80 1.8)
+                                (translate [-1 4 -2.1]))
+        hotswap-base-hold-shape (->> (cube (/ 12 2) (- 6.2 4) 1.8)
+                                     (translate [(/ 12 4) (/ (- 6.2 4) 1) -2.1]))
+        hotswap-pad (cube 4.00 3.0 2)
+        hotswap-pad-plus (translate [(- 0 (+ (/ 12.9 2) (/ 2.55 2))) 2.54 -2.1]
+                                    hotswap-pad)
+        hotswap-pad-minus (translate [(+ (/ 10.9 2) (/ 2.55 2)) 5.08 -2.1]
+                                     hotswap-pad)
+        wire-track (cube 4 (+ keyswitch-height 3) 1.8)
+        column-wire-track (->> wire-track
+                               (translate [9.5 0 -2.4]))
+        diode-wire-track (->> (cube 2 10 1.8)
+                              (translate [-7 8 -2.1]))
+        hotswap-base (union
+                      (difference hotswap-base-shape
+                                  hotswap-base-hold-shape)
+                      hotswap-pad-plus
+                      hotswap-pad-minus)
+        diode-holder (->> (cube 2 4 1.8)
+                          (translate [-7 5 -2.1]))
+        hotswap-holder (difference swap-holder
+                                   main-axis-hole
+                                   plus-hole
+                                   (mirror [-1 0 0] plus-hole)
+                                   minus-hole
+                                   (mirror [-1 0 0] minus-hole)
+                                   friction-hole-left
+                                   friction-hole-right
+                                   hotswap-base
+                                   (mirror [-1 0 0] hotswap-base))]
+    (difference (union plate-half
+                       (->> plate-half
+                            (mirror [1 0 0])
+                            (mirror [0 1 0]))
+                       hotswap-holder)
+                #_diode-holder
+                #_diode-wire-track
+                column-wire-track)))
 
 ;amoeba is 16 mm high
 (def switch-bottom
@@ -525,10 +568,10 @@
 
 (defn screw-insert-all-shapes [bottom-radius top-radius height]
   (union (screw-insert 2 0 bottom-radius top-radius height [-4 4.5 bottom-height]) ; top middle
-         (screw-insert 0 1 bottom-radius top-radius height [-5.3 -8 bottom-height]) ; left
+         (screw-insert 0 1 bottom-radius top-radius height [-5.6 -8 bottom-height]) ; left
          (screw-insert 0 lastrow bottom-radius top-radius height [-12 -7 bottom-height]) ;thumb
-         (screw-insert (- lastcol 1) lastrow bottom-radius top-radius height [10 13.5 bottom-height]) ; bottom right
-         (screw-insert (- lastcol 1) 0 bottom-radius top-radius height [10 5 bottom-height]) ; top right
+         (screw-insert (- lastcol 1) lastrow bottom-radius top-radius height [29 13.5 bottom-height]) ; bottom right
+         (screw-insert (- lastcol 1) 0 bottom-radius top-radius height [7.5 5 bottom-height]) ; top right
          (screw-insert 2 (+ lastrow 1) bottom-radius top-radius height [0 6.5 bottom-height]))) ;bottom middle
 
 ; Hole Depth Y: 4.4
@@ -546,9 +589,9 @@
 
 
 (def usb-holder (mirror [-1 0 0]
-                    (import "../things/holder v8.stl")))
+                    (import "holder v8.stl")))
 
-(def usb-holder (translate [-40.8 45.5 bottom-height] usb-holder))
+(def usb-holder (translate [-22 45.5 bottom-height] usb-holder))
 (def usb-holder-space
   (translate [0 0 (/ (+  bottom-height 8.2) 2)]
   (extrude-linear {:height (+ bottom-height 8.2) :twist 0 :convexity 0}
