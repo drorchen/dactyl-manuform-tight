@@ -14,17 +14,17 @@
 (def nrows 4)
 (def ncols 5)
 
-(def column-curvature (deg2rad 17))                         ; 15                        ; curvature of the columns
-(def row-curvature (deg2rad 6))                             ; 5                   ; curvature of the rows
+(def column-curvature (deg2rad 19))                         ; 15                        ; curvature of the columns
+(def row-curvature (deg2rad 9))                             ; 5                   ; curvature of the rows
 (def centerrow 1.75)                              ; controls front-back tilt
 (def centercol 2)                                           ; controls left-right tilt / tenting (higher number is more tenting)
-(def tenting-angle (deg2rad 15))                            ; or, change this for more precise tenting control
+(def tenting-angle (deg2rad 25))                            ; or, change this for more precise tenting control
 (def column-style
   (if (> nrows 5) :orthographic :standard))
 (defn column-offset [column] (cond
                                (= column 2) [0 5 -3]
-                               (= column 3) [0 0 -0.5]
-                               (>= column 4) [0 -10 6]
+                               (= column 3) [0 -3 -0.5]
+                               (>= column 4) [0 -20 6]
                                :else [0 0 0]))
 
 (def thumb-offsets [10 -5 1])
@@ -374,9 +374,10 @@
        (translate move)))
 
 ; convexer
-(defn thumb-r-place [shape] (thumb-place [14 -40 10] [-15 -10 5] shape)) ; right
-(defn thumb-m-place [shape] (thumb-place [10 -23 20] [-33 -15 -6] shape)) ; middle
-(defn thumb-l-place [shape] (thumb-place [6 -5 35] [-52.5 -25.5 -11.5] shape)) ; left
+; (defn thumb-r-place [shape] (thumb-place [14 -40 10] [-15 -10 5] shape)) ; right
+(defn thumb-r-place [shape] (thumb-place [14 -40 10] [-35 -10 5] shape)) ; right
+(defn thumb-m-place [shape] (thumb-place [10 -23 20] [-53 -15 -6] shape)) ; middle
+(defn thumb-l-place [shape] (thumb-place [6 -5 35] [-72.5 -25.5 -11.5] shape)) ; left
 
 (defn thumb-layout [shape]
   (union
@@ -444,26 +445,26 @@
       (key-place 4 cornerrow web-post-bl))
     (hull                                                   ; between thumb m and top key
       (key-place 0 cornerrow (translate (wall-locate1 -1 0) web-post-bl))
-      (thumb-m-place web-post-tr)
-      (thumb-m-place web-post-tl))
+      (thumb-r-place web-post-tr)
+      (thumb-r-place web-post-tl))
     (piramid-hulls                                          ; top ridge thumb side
       (key-place 0 cornerrow (translate (wall-locate1 -1 0) fat-web-post-bl))
       (key-place 0 cornerrow (translate (wall-locate2 -1 0) web-post-bl))
       (key-place 0 cornerrow web-post-bl)
-      ;(thumb-r-place web-post-tr)
+      (thumb-r-place web-post-tr)
       (thumb-r-place web-post-tl)
-      (thumb-m-place web-post-tr)
+      ;(thumb-m-place web-post-tr)
       (key-place 0 cornerrow (translate (wall-locate3 -1 0) web-post-bl))
       )
     (triangle-hulls
       (key-place 0 cornerrow fat-web-post-br)
       (key-place 0 cornerrow fat-web-post-bl)
-      (thumb-r-place web-post-tl)
+      (thumb-r-place web-post-tr)
       (key-place 1 cornerrow web-post-bl)
       (key-place 1 cornerrow web-post-br)
       )
     (triangle-hulls
-      (thumb-r-place fat-web-post-tl)
+      ;(thumb-r-place fat-web-post-tl)
       (thumb-r-place fat-web-post-tr)
       (key-place 1 cornerrow web-post-br)
       (key-place 2 lastrow web-post-tl)
@@ -529,7 +530,7 @@
     ; left wall
     (for [y (range 0 lastrow)] (key-wall-brace 0 y -1 0 web-post-tl 0 y -1 0 web-post-bl))
     (for [y (range 1 lastrow)] (key-wall-brace 0 (dec y) -1 0 web-post-bl 0 y -1 0 web-post-tl))
-    (wall-brace (partial key-place 0 cornerrow) -1 0 web-post-bl thumb-m-place 0 1 web-post-tl)
+    (wall-brace (partial key-place 0 cornerrow) -1 0 web-post-bl thumb-r-place 0 1 web-post-tl)
     ; left-back-corner
     (key-wall-brace 0 0 0 1 web-post-tl 0 0 -1 0 web-post-tl)
     ; front wall
@@ -541,6 +542,7 @@
     ; thumb walls
     (wall-brace thumb-r-place 0 -1 web-post-br thumb-r-place 0 -1 web-post-bl)
     (wall-brace thumb-m-place 0 -1 web-post-br thumb-m-place 0 -1 web-post-bl)
+    (wall-brace thumb-m-place 0 1 web-post-tr thumb-m-place 0 1 web-post-tl)
     (wall-brace thumb-l-place 0 -1 web-post-br thumb-l-place 0 -1 web-post-bl)
     (wall-brace thumb-l-place 0 1 web-post-tr thumb-l-place 0 1 web-post-tl)
     (wall-brace thumb-l-place -1 0 web-post-tl thumb-l-place -1 0 web-post-bl)
@@ -549,6 +551,7 @@
     (wall-brace thumb-l-place -1 0 web-post-tl thumb-l-place 0 1 web-post-tl)
     ; thumb tweeners
     (wall-brace thumb-r-place 0 -1 web-post-bl thumb-m-place 0 -1 web-post-br)
+    (wall-brace thumb-r-place 0 1 web-post-tl thumb-m-place 0 1 web-post-tr)
     (wall-brace thumb-m-place 0 -1 web-post-bl thumb-l-place 0 -1 web-post-br)
     (wall-brace thumb-m-place 0 1 web-post-tl thumb-l-place 0 1 web-post-tr)
     (wall-brace thumb-l-place -1 0 web-post-bl thumb-l-place -1 0 web-post-tl)
@@ -567,12 +570,12 @@
          (translate (map + offset [(first position) (second position) (/ height 2)])))))
 
 (defn screw-insert-all-shapes [bottom-radius top-radius height]
-  (union (screw-insert 2 0 bottom-radius top-radius height [-4 4.5 bottom-height]) ; top middle
+  (union (screw-insert 2 0 bottom-radius top-radius height [-3 5.5 bottom-height]) ; top middle
          (screw-insert 0 1 bottom-radius top-radius height [-5.6 -8 bottom-height]) ; left
-         (screw-insert 0 lastrow bottom-radius top-radius height [-12 -7 bottom-height]) ;thumb
-         (screw-insert (- lastcol 1) lastrow bottom-radius top-radius height [29 13.5 bottom-height]) ; bottom right
+         (screw-insert 0 lastrow bottom-radius top-radius height [-35 -5 bottom-height]) ;thumb
+         (screw-insert (- lastcol 1) lastrow bottom-radius top-radius height [11.5 -6 bottom-height]) ; bottom right
          (screw-insert (- lastcol 1) 0 bottom-radius top-radius height [7.5 5 bottom-height]) ; top right
-         (screw-insert 2 (+ lastrow 1) bottom-radius top-radius height [0 6.5 bottom-height]))) ;bottom middle
+         (screw-insert 2 (+ lastrow 1) bottom-radius top-radius height [0 3.5 bottom-height]))) ;bottom middle
 
 ; Hole Depth Y: 4.4
 (def screw-insert-height 4)
@@ -591,7 +594,7 @@
 (def usb-holder (mirror [-1 0 0]
                     (import "holder v8.stl")))
 
-(def usb-holder (translate [-22 45.5 bottom-height] usb-holder))
+(def usb-holder (translate [-17 46.5 bottom-height] usb-holder))
 (def usb-holder-space
   (translate [0 0 (/ (+  bottom-height 8.2) 2)]
   (extrude-linear {:height (+ bottom-height 8.2) :twist 0 :convexity 0}
