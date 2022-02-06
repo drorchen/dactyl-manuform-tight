@@ -18,6 +18,8 @@ I'm using [Noah Prince's fork of QMK](https://github.com/noahprince22/qmk_firmwa
 
 ## Features
 - Embedded trackball in the right half of the keyboard.
+- Hotswap sockets.
+- Increased tenting.
 
 ## License
 
