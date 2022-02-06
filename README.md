@@ -2,6 +2,8 @@
 
 This is a fork of the [Dactyl-ManuForm-Tight](https://github.com/okke-formsma/dactyl-manuform-tight). The Dactyl-ManuForm-Tight is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboard). The Dactyl-Manuform is a fork of the [Dactyl](https://github.com/adereth/dactyl-keyboard) with the thumb cluster from [ManuForm](https://github.com/jeffgran/ManuForm).
 The trackball socket is taken from [Qurn's trackball](https://gitlab.com/keyboards1/dm_r_track/-/tree/master).
+I used parts of the [Derek Nheiley's code](https://github.com/dereknheiley/dactyl-manuform-tight).
+The hotswap is taken from [ibnuda's code](https://github.com/ibnuda/dactyl-keyboard/tree/hotswap).
 
 ![Imgur](https://i.imgur.com/wm7Yq1O.jpg)
 ![Imgur](https://i.imgur.com/fzT6SjV.jpg)
@@ -23,7 +25,7 @@ I'm using [Noah Prince's fork of QMK](https://github.com/noahprince22/qmk_firmwa
 
 ## License
 
-Copyright © 2015-2022 Matthew Adereth, Tom Short, Leo Lou, Okke Formsma, Qurn, Jup Itzme, Dror Chen.
+Copyright © 2015-2022 Matthew Adereth, Tom Short, Leo Lou, Okke Formsma, Qurn, Jup Itzme, Derek Nheiley, ibnuda, Dror Chen.
 
 The source code for generating the models is distributed under the [GNU AFFERO GENERAL PUBLIC LICENSE Version 3](LICENSE).
 
