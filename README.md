@@ -8,7 +8,7 @@ The trackball socket is taken from [Qurn's trackball](https://gitlab.com/keyboar
 ![Imgur](https://i.imgur.com/2P6wJYQ.jpg)
 
 ## Problems
-- The sensor (PMW3360) is too large to fit in the case, I had to print a bottom plate with it cut out:
+- The sensor (PMW3360) is too large to fit in the case, I had to print a bottom plate with it cut out, and attach anti-slipping stickers to raise the keyboard higher from the desk:
 ![Imgur](https://i.imgur.com/esv2Nww.jpg)
 - Due to the increased tenting of the thumb cluster, I had to cut the edges of the keycaps to put them in:
 ![Imgur](https://i.imgur.com/sQflYZF.jpg)
@@ -18,22 +18,6 @@ I'm using [Noah Prince's fork of QMK](https://github.com/noahprince22/qmk_firmwa
 
 ## Features
 - Embedded trackball in the right half of the keyboard.
-
-## Generate OpenSCAD and STL models
-
-* Run `lein repl`
-* In the repl run `(load-file "src/dactyl_keyboard/dactyl.clj")`
-* This will regenerate the `things/*.scad` files
-* Use OpenSCAD to open a `.scad` file.
-* Make changes to design, repeat `load-file`, OpenSCAD will watch for changes and rerender.
-* When done, use OpenSCAD to export STL files
-
-
-## Tips
-
-* When trying things out, 10 seconds of rendering time in OpenSCAD is really annoying. Load one of the test outputs with commented out parts that you don't use.
-* If you're not sure what things are generted by a piece of code, color them in using something like
-`(color [0.5 0.5 0.5 0.5] (the code)`
 
 ## License
 
