@@ -13,6 +13,9 @@ The trackball socket is taken from [Qurn's trackball](https://gitlab.com/keyboar
 - Due to the increased tenting of the thumb cluster, I had to cut the edges of the keycaps to put them in:
 ![Imgur](https://i.imgur.com/sQflYZF.jpg)
 
+## Firmware
+I'm using [Noah Prince's fork of QMK](https://github.com/noahprince22/qmk_firmware/tree/trackball).
+
 ## Features
 - Embedded trackball in the right half of the keyboard.
 
