@@ -17,7 +17,7 @@ The hotswap is taken from [ibnuda's code](https://github.com/ibnuda/dactyl-keybo
 
 ## Firmware
 First, I built it as a wired keyboard with [Noah Prince's fork of QMK](https://github.com/noahprince22/qmk_firmware/tree/trackball) and two Atmega32u4.
-Now, I rebuilt it with 2 nice!nanos and 2 2400mA batteries, so it is wireless, you can view [my fork of ZMK](https://github.com/drorchen/zmk/tree/dracula-test), which is a combination of a few repositories I found plus some stuff I added for myself. You can view [my ZMK shield config](https://github.com/drorchen/tracktyl-zmk-config/tree/tracktyl) for that firmware.
+Now, I rebuilt it with 2 nice!nanos and 2 2400mA batteries, so it is wireless, you can view [my fork of ZMK](https://github.com/drorchen/zmk/tree/trackball-support), which is a combination of a few repositories I found (Most changes are taken from [ufan/zmk](https://github.com/ufan/zmk/tree/support-trackball)) plus some stuff I added for myself. You can view [my ZMK shield config](https://github.com/drorchen/tracktyl-zmk-config/tree/tracktyl) for that firmware.
 
 ## Features
 - Embedded trackball in the right half of the keyboard.
