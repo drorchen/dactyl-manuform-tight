@@ -9,6 +9,9 @@ The hotswap is taken from [ibnuda's code](https://github.com/ibnuda/dactyl-keybo
 ![Imgur](https://i.imgur.com/fzT6SjV.jpg)
 ![Imgur](https://i.imgur.com/2P6wJYQ.jpg)
 
+## STLs
+STLs can be found [here](https://github.com/drorchen/dactyl-manuform-tight-trackball-stls).
+
 ## Problems
 - The sensor (PMW3360) is too large to fit in the case, I had to print a bottom plate with it cut out, and attach anti-slipping stickers to raise the keyboard higher from the desk:
 ![Imgur](https://i.imgur.com/esv2Nww.jpg)
