@@ -26,6 +26,7 @@ Now, I rebuilt it with 2 nice!nanos and 2 2400mA batteries, so it is wireless, y
 - Embedded trackball in the right half of the keyboard.
 - Hotswap sockets.
 - Increased tenting.
+- Wireless.
 
 ## License
 
